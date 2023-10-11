@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning Game</title>
+</head>
+<body>
+    <h1>Language Learning Game with Speech Recognition</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <h2>Add Exercise</h2>
+    <form method="POST" action="/add_exercise" enctype="multipart/form-data">
+        <label for="audio">Upload Audio File:</label>
+        <input type="file" name="file" accept="audio/*" required>
+        <label for="exercise_text">Exercise Text:</label>
+        <input type="text" name="exercise_text" required>
+        <button type="submit">Add Exercise</button>
+    </form>
+
+    <h2>Exercises</h2>
+    <ul>
+        {% for exercise in exercises %}
+            <li>
+                <strong>Exercise Text:</strong> {{ exercise.text }}<br>
+                <strong>Transcription:</strong> {{ exercise.transcription or 'N/A' }}<br>
+                <strong>Score:</strong> {{ exercise.score }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
